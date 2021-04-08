@@ -59,11 +59,17 @@ def application():
                f = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
                file.save(f)
                result = predict(file.filename)
-               if result:
-                    a = {"success":"True","result":result}
-                    return json.dumps(a)
-               else:
+               try:
+                    if result:
+                         a = {"success":"True","result":result}
+                         return json.dumps(a)
+                    else:
+                         abort(400)
+               except:
                     abort(400)
+
+               
+               
 
 if __name__ == "__main__":
     app.run(debug=True)
